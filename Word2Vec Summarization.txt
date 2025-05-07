@@ -1,0 +1,52 @@
+Word2Vec Summarization:
+
+
+The Objective :  produce dense continuous vector that represent word by its contextual representation.
+
+
+Previous work : Architecture for estimating neural network language model (NNLM).
+
+
+evaluation : We use recently proposed techniques for measuring the quality of the resulting vector representations, with the expectation that not only will similar words tend to be close to each other, but that
+words can have multiple degrees of similarity [20].
+
+test set : We design a new comprehensive test set for measuring both syntactic and semantic regularities1
+
+Model Architectures : Neural networks perform significantly better than LSA for preserving linear regularities, so we can do meaningful linear operation like add and subtract.
+
+
+New Log-linear Models:
+
+In previous models, most of the complexity is caused by the non-linear hidden layer in the model. While
+this is what makes neural networks so attractive, we decided to explore simpler models that might
+not be able to represent the data as precisely as neural networks, but can possibly be trained on much
+more data efficiently.
+
+The new architectures of neural network language model can be successfully trained in two steps:
+1- continuous word vectors are learned using simple model.
+2- then the N-gram NNLM is trained on top of these distributed representations of words.
+
+
+One of the main differences between the 2 following models is how the incorporate the context information in the learned embedding vector.
+
+1 - Continuous Bag-of-Words Model
+
+* This architecture is described as being similar to the feedforward NNLM but with the non-linear hidden layer removed.
+
+* A key feature is that the projection layer is shared for all words in the input context; their vectors are averaged.
+
+* It is called a "bag-of-words" model because the order of words in the history (or context) does not influence the projection. However, unlike a standard bag-of-words model, it uses a continuous distributed representation of the context.
+
+* The task of the CBOW model is to predict the current (middle) word based on the surrounding context words. The paper's implementation used four words from the future and four words from the history as input.
+
+* The training criterion is to correctly classify the current word.
+
+2- Continuous Skip-gram Model
+
+
+
+* This architecture is described as being similar to the CBOW model.
+
+* However, instead of predicting the current word from the context, the Skip-gram model tries to maximise the classification of context words based on the current word. It uses each current word as input to a log-linear classifier with a continuous projection layer and predicts words within a certain range before and after the current word.
+
+* Increasing the range (C) of surrounding words improves the quality of the resulting word vectors but also increases computational complexity. To mitigate this, less weight is given to more distant words by sampling less from them in the training examples.
